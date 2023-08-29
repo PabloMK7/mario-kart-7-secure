@@ -3,7 +3,7 @@ module github.com/PretendoNetwork/mario-kart-7
 go 1.19
 
 require (
-	github.com/PretendoNetwork/nex-go v1.0.36
+	github.com/PretendoNetwork/nex-go v1.0.37
 	github.com/PretendoNetwork/nex-protocols-common-go v1.0.26
 	github.com/PretendoNetwork/nex-protocols-go v1.0.50
 	github.com/PretendoNetwork/plogger-go v1.0.4

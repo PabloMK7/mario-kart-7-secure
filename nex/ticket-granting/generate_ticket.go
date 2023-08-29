@@ -7,7 +7,7 @@ import (
 	"github.com/PretendoNetwork/nex-go"
 )
 
-var passwords map[uint32]string
+var passwords map[uint32]string = make(map[uint32]string)
 
 func generateTicket(userPID uint32, targetPID uint32, password string) ([]byte, uint32) {
 	var userPassword string
