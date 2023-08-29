@@ -50,6 +50,3 @@ All configuration options are handled via environment variables
 | `PN_MK7_AUTHENTICATION_SERVER_PORT` | Port for the authentication server                                                                                     | Yes                                           |
 | `PN_MK7_SECURE_SERVER_HOST`         | Host name for the secure server (should point to the same address as the authentication server)                        | Yes                                           |
 | `PN_MK7_SECURE_SERVER_PORT`         | Port for the secure server                                                                                             | Yes                                           |
-| `PN_MK7_ACCOUNT_GRPC_HOST`          | Host name for your account server gRPC service                                                                         | Yes                                           |
-| `PN_MK7_ACCOUNT_GRPC_PORT`          | Port for your account server gRPC service                                                                              | Yes                                           |
-| `PN_MK7_ACCOUNT_GRPC_API_KEY`       | API key for your account server gRPC service                                                                           | No (Assumed to be an open gRPC API)           |

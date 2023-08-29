@@ -1,18 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 	"strings"
 
-	pb "github.com/PretendoNetwork/grpc-go/account"
 	"github.com/PretendoNetwork/mario-kart-7/globals"
 	"github.com/PretendoNetwork/plogger-go"
 	"github.com/joho/godotenv"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-	"google.golang.org/grpc/metadata"
 )
 
 func init() {
@@ -29,9 +24,6 @@ func init() {
 	authenticationServerPort := os.Getenv("PN_MK7_AUTHENTICATION_SERVER_PORT")
 	secureServerHost := os.Getenv("PN_MK7_SECURE_SERVER_HOST")
 	secureServerPort := os.Getenv("PN_MK7_SECURE_SERVER_PORT")
-	accountGRPCHost := os.Getenv("PN_MK7_ACCOUNT_GRPC_HOST")
-	accountGRPCPort := os.Getenv("PN_MK7_ACCOUNT_GRPC_PORT")
-	accountGRPCAPIKey := os.Getenv("PN_MK7_ACCOUNT_GRPC_API_KEY")
 
 	if strings.TrimSpace(kerberosPassword) == "" {
 		globals.Logger.Warningf("PN_MK7_KERBEROS_PASSWORD environment variable not set. Using default password: %q", globals.KerberosPassword)
@@ -69,39 +61,6 @@ func init() {
 		globals.Logger.Errorf("PN_MK7_SECURE_SERVER_PORT is not a valid port. Expected 0-65535, got %s", secureServerPort)
 		os.Exit(0)
 	}
-
-	if strings.TrimSpace(accountGRPCHost) == "" {
-		globals.Logger.Error("PN_MK7_ACCOUNT_GRPC_HOST environment variable not set")
-		os.Exit(0)
-	}
-
-	if strings.TrimSpace(accountGRPCPort) == "" {
-		globals.Logger.Error("PN_MK7_ACCOUNT_GRPC_PORT environment variable not set")
-		os.Exit(0)
-	}
-
-	if port, err := strconv.Atoi(accountGRPCPort); err != nil {
-		globals.Logger.Errorf("PN_MK7_ACCOUNT_GRPC_PORT is not a valid port. Expected 0-65535, got %s", accountGRPCPort)
-		os.Exit(0)
-	} else if port < 0 || port > 65535 {
-		globals.Logger.Errorf("PN_MK7_ACCOUNT_GRPC_PORT is not a valid port. Expected 0-65535, got %s", accountGRPCPort)
-		os.Exit(0)
-	}
-
-	if strings.TrimSpace(accountGRPCAPIKey) == "" {
-		globals.Logger.Warning("Insecure gRPC server detected. PN_MK7_ACCOUNT_GRPC_API_KEY environment variable not set")
-	}
-
-	globals.GRPCAccountClientConnection, err = grpc.Dial(fmt.Sprintf("%s:%s", accountGRPCHost, accountGRPCPort), grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		globals.Logger.Criticalf("Failed to connect to account gRPC server: %v", err)
-		os.Exit(0)
-	}
-
-	globals.GRPCAccountClient = pb.NewAccountClient(globals.GRPCAccountClientConnection)
-	globals.GRPCAccountCommonMetadata = metadata.Pairs(
-		"X-API-Key", accountGRPCAPIKey,
-	)
 
 	// database.ConnectPostgres()
 }

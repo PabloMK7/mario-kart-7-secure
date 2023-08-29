@@ -7,6 +7,8 @@ import (
 	nex "github.com/PretendoNetwork/nex-go"
 	ticket_granting "github.com/PretendoNetwork/nex-protocols-common-go/ticket-granting"
 	"github.com/PretendoNetwork/mario-kart-7/globals"
+
+	nex_ticket_granting "github.com/PretendoNetwork/mario-kart-7/nex/ticket-granting"
 )
 
 func registerCommonAuthenticationServerProtocols() {
@@ -25,7 +27,11 @@ func registerCommonAuthenticationServerProtocols() {
 	secureStationURL.SetType(2)
 
 	ticketGrantingProtocol.SetSecureStationURL(secureStationURL)
-	ticketGrantingProtocol.SetBuildName(serverBuildString)
+	nex_ticket_granting.SecureStationURL = secureStationURL
 
-	globals.AuthenticationServer.SetPasswordFromPIDFunction(globals.PasswordFromPID)
+	ticketGrantingProtocol.SetBuildName(serverBuildString)
+	nex_ticket_granting.BuildName = serverBuildString
+
+	ticketGrantingProtocol.LoginEx(nex_ticket_granting.LoginEx)
+	ticketGrantingProtocol.RequestTicket(nex_ticket_granting.RequestTicket)
 }
