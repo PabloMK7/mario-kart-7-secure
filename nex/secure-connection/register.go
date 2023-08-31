@@ -20,6 +20,12 @@ func Register(err error, client *nex.Client, callID uint32, stationUrls []*nex.S
 	// Mario Kart 7 already sets the public station for us
 	publicStation := stationUrls[1]
 
+	localStation.SetPID(client.PID())
+	localStation.SetRVCID(client.ConnectionID())
+
+	publicStation.SetPID(client.PID())
+	publicStation.SetRVCID(client.ConnectionID())
+
 	localStation.SetLocal()
 	publicStation.SetPublic()
 
