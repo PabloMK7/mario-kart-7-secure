@@ -25,12 +25,12 @@ func tokenToPassword(token string) string {
 	requestURL := fmt.Sprintf("https://localhost:64334/%s", token)
 	res, err := client.Get(requestURL)
     if err != nil {
-		globals.Logger.Error(err)
+		globals.Logger.Error(err.Error())
 		return "err"
 	}
 	resBody, err := io.ReadAll(res.Body)
 	if err != nil {
-		globals.Logger.Error(err)
+		globals.Logger.Error(err.Error())
         return "err"
     }
 	return string(resBody)
