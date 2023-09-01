@@ -23,7 +23,7 @@ func StartAuthenticationServer() {
 	globals.AuthenticationServer.SetAccessKey("6181dff1")
 
 	globals.AuthenticationServer.On("Data", func(packet *nex.PacketV0) {
-		_ := packet.RMCRequest()
+		_ = packet.RMCRequest()
 
 		// fmt.Println("=== MK7 - Auth ===")
 		// fmt.Printf("Protocol ID: %#v\n", request.ProtocolID())
