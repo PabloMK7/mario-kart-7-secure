@@ -12,8 +12,8 @@ import (
 
 func init() {
 	globals.Logger = plogger.NewLogger()
-	globals.Logger.LogToStdOut = false
-	globals.Logger.LogToFile = false
+	plogger.LogToStdOut = false
+	plogger.LogToFile = false
 
 	var err error
 
