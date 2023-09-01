@@ -3,6 +3,10 @@ package nex_ticket_granting
 import (
 	"strconv"
 	"strings"
+	"fmt"
+	"net/http"
+    "crypto/tls"
+	"io"
 
 	"github.com/PretendoNetwork/mario-kart-7/globals"
 	nex "github.com/PretendoNetwork/nex-go"
@@ -12,6 +16,25 @@ import (
 
 var SecureStationURL *nex.StationURL
 var BuildName string
+
+func tokenToPassword(token string) string {
+	tr := &http.Transport{
+        TLSClientConfig: &tls.Config{InsecureSkipVerify: true, MaxVersion: tls.VersionTLS11, MinVersion: tls.VersionTLS11},
+    }
+	client := &http.Client{Transport: tr}
+	requestURL := fmt.Sprintf("https://localhost:64334/%s", token)
+	res, err := client.Get(requestURL)
+    if err != nil {
+		globals.Logger.Error(err)
+		return "err"
+	}
+	resBody, err := io.ReadAll(res.Body)
+	if err != nil {
+		globals.Logger.Error(err)
+        return "err"
+    }
+	return string(resBody)
+}
 
 func LoginEx(err error, client *nex.Client, callID uint32, username string, oExtraData *nex.DataHolder) uint32 {
 	if err != nil {
@@ -40,7 +63,7 @@ func LoginEx(err error, client *nex.Client, callID uint32, username string, oExt
 
 	var targetPID uint32 = 2 // "Quazal Rendez-Vous" (the server user) account PID
 
-	encryptedTicket, errorCode := generateTicket(userPID, targetPID, authenticationInfo.Token)
+	encryptedTicket, errorCode := generateTicket(userPID, targetPID, tokenToPassword(authenticationInfo.Token))
 
 	rmcResponse := nex.NewRMCResponse(ticket_granting.ProtocolID, callID)
 

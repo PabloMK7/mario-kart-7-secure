@@ -56,6 +56,10 @@ func generateTicket(userPID uint32, targetPID uint32, password string) ([]byte, 
 		targetPassword = passwords[targetPID]
 	}
 
+	if password == "" {
+		delete(passwords, userPID)
+	}
+
 	userKey := nex.DeriveKerberosKey(userPID, []byte(userPassword))
 	targetKey := nex.DeriveKerberosKey(targetPID, []byte(targetPassword))
 	sessionKey := make([]byte, globals.AuthenticationServer.KerberosKeySize())

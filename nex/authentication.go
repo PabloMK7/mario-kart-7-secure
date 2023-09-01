@@ -25,10 +25,10 @@ func StartAuthenticationServer() {
 	globals.AuthenticationServer.On("Data", func(packet *nex.PacketV0) {
 		request := packet.RMCRequest()
 
-		fmt.Println("=== MK7 - Auth ===")
-		fmt.Printf("Protocol ID: %#v\n", request.ProtocolID())
-		fmt.Printf("Method ID: %#v\n", request.MethodID())
-		fmt.Println("==================")
+		// fmt.Println("=== MK7 - Auth ===")
+		// fmt.Printf("Protocol ID: %#v\n", request.ProtocolID())
+		// fmt.Printf("Method ID: %#v\n", request.MethodID())
+		// fmt.Println("==================")
 	})
 
 	registerCommonAuthenticationServerProtocols()
