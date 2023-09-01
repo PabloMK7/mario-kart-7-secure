@@ -9,11 +9,12 @@ import (
 	secure "github.com/PretendoNetwork/nex-protocols-common-go/secure-connection"
 
 	nex_matchmake_extension "github.com/PretendoNetwork/mario-kart-7/nex/matchmake-extension"
+	nex_secure_connection "github.com/PretendoNetwork/mario-kart-7/nex/secure-connection"
 )
 
 func registerCommonSecureServerProtocols() {
 	secureConnectionCommonProtocol := secure.NewCommonSecureConnectionProtocol(globals.SecureServer)
-	_ = secureConnectionCommonProtocol
+	secureConnectionCommonProtocol.Register(nex_secure_connection.Register)
 
 	natTraversalCommonProtocol := nattraversal.NewCommonNATTraversalProtocol(globals.SecureServer)
 	_ = natTraversalCommonProtocol
