@@ -21,7 +21,7 @@ func StartSecureServer() {
 	globals.SecureServer.SetKerberosPassword(globals.KerberosPassword)
 
 	globals.SecureServer.On("Data", func(packet *nex.PacketV0) {
-		request := packet.RMCRequest()
+		_ := packet.RMCRequest()
 
 		// fmt.Println("=== MK7 - Secure ===")
 		// fmt.Printf("Protocol ID: %#v\n", request.ProtocolID())
