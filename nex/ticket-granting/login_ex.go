@@ -22,7 +22,7 @@ func tokenToPassword(token string) string {
         TLSClientConfig: &tls.Config{InsecureSkipVerify: true, MaxVersion: tls.VersionTLS11, MinVersion: tls.VersionTLS11},
     }
 	client := &http.Client{Transport: tr}
-	requestURL := fmt.Sprintf("https://localhost:64334/%s", token)
+	requestURL := fmt.Sprintf("https://localhost:64334/t/%s", token)
 	res, err := client.Get(requestURL)
     if err != nil {
 		globals.Logger.Error(err.Error())
