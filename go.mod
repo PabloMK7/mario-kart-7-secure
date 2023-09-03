@@ -20,7 +20,7 @@ require (
 	golang.org/x/exp v0.0.0-20230817173708-d852ddb80c63 // indirect
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/sys v0.12.0 // indirect
-	golang.org/x/term v0.11.0 // indirect
+	golang.org/x/term v0.12.0 // indirect
 )
 
 replace github.com/PretendoNetwork/plogger-go v1.0.4 => github.com/PabloMK7/plogger-go v1.0.5-0.20230901225841-d5c640d3fa71

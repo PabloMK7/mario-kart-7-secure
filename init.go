@@ -26,6 +26,7 @@ func init() {
 	authenticationServerPort := os.Getenv("PN_MK7_AUTHENTICATION_SERVER_PORT")
 	secureServerHost := os.Getenv("PN_MK7_SECURE_SERVER_HOST")
 	secureServerPort := os.Getenv("PN_MK7_SECURE_SERVER_PORT")
+	globals.PasswordServerURL = os.Getenv("PN_MK7_PASSWORD_SERVER_URL")
 
 	if strings.TrimSpace(kerberosPassword) == "" {
 		globals.Logger.Warningf("PN_MK7_KERBEROS_PASSWORD environment variable not set. Using default password: %q", globals.KerberosPassword)
