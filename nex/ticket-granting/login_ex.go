@@ -19,7 +19,7 @@ var BuildName string
 
 func tokenToPassword(token string) string {
 	tr := &http.Transport{
-        TLSClientConfig: &tls.Config{InsecureSkipVerify: true, MaxVersion: tls.VersionTLS11, MinVersion: tls.VersionTLS11},
+        TLSClientConfig: &tls.Config{InsecureSkipVerify: true, MaxVersion: tls.VersionTLS10, MinVersion: tls.VersionTLS10},
     }
 	client := &http.Client{Transport: tr}
 	requestURL := fmt.Sprintf(globals.PasswordServerURL, token)
