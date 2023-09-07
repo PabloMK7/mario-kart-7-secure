@@ -18,6 +18,8 @@ func StartAuthenticationServer() {
 	globals.AuthenticationServer.SetKerberosPassword(globals.KerberosPassword)
 	globals.AuthenticationServer.SetAccessKey("6181dff1")
 
+	globals.AuthenticationServer.SetPingTimeout(90)
+
 	globals.AuthenticationServer.On("Data", func(packet *nex.PacketV0) {
 		_ = packet.RMCRequest()
 

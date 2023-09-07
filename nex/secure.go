@@ -16,6 +16,8 @@ func StartSecureServer() {
 	globals.SecureServer.SetAccessKey("6181dff1")
 	globals.SecureServer.SetKerberosPassword(globals.KerberosPassword)
 
+	globals.SecureServer.SetPingTimeout(90)
+
 	globals.SecureServer.On("Data", func(packet *nex.PacketV0) {
 		_ = packet.RMCRequest()
 
