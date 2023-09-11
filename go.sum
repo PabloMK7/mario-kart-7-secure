@@ -1,5 +1,5 @@
-github.com/PabloMK7/nex-go v1.0.41-0.20230911124740-e9336fcfa102 h1:Q+hc4i2gObPEV6z691XAD5Eel7lJKryT8lqS2cZqRe8=
-github.com/PabloMK7/nex-go v1.0.41-0.20230911124740-e9336fcfa102/go.mod h1:QepeB2ImpmIuAAYMyAsARGdfLntTBROEnBXfxpJ6FQg=
+github.com/PabloMK7/nex-go v1.0.41-0.20230911133657-a36de2b9bb60 h1:Idv3fT2Mn8ZbTKZz1Yb09C7jd5c8HBCffy22VMN/KZg=
+github.com/PabloMK7/nex-go v1.0.41-0.20230911133657-a36de2b9bb60/go.mod h1:QepeB2ImpmIuAAYMyAsARGdfLntTBROEnBXfxpJ6FQg=
 github.com/PabloMK7/nex-protocols-common-go v0.0.0-20230903114306-4b24738c8c57 h1:+kBV9K9rWbGHuGEk3Lx/rPEhEYru6vfPB4tAs3BbhhU=
 github.com/PabloMK7/nex-protocols-common-go v0.0.0-20230903114306-4b24738c8c57/go.mod h1:WNvaX4i4ej6KvEmofRV5HyNGFkdhalO50OAf79ixr0s=
 github.com/PabloMK7/plogger-go v1.0.5-0.20230901225841-d5c640d3fa71 h1:8IJNJoAwTh5Dyr39g/hryr43H2DyO0VENSEN80mdgNU=
