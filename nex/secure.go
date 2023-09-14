@@ -17,8 +17,6 @@ func StartSecureServer() {
 	globals.SecureServer.SetKerberosPassword(globals.KerberosPassword)
 
 	globals.SecureServer.SetPingTimeout(90)
-	globals.SecureServer.SetEmulatedPacketDropPercent(false, 50)
-	globals.SecureServer.SetEmulatedPacketDropPercent(false, 50)
 
 	globals.SecureServer.On("Data", func(packet *nex.PacketV0) {
 		_ = packet.RMCRequest()
