@@ -25,6 +25,6 @@ require (
 
 replace github.com/PretendoNetwork/plogger-go v1.0.4 => github.com/PabloMK7/plogger-go v1.0.5-0.20230901225841-d5c640d3fa71
 
-replace github.com/PretendoNetwork/nex-go => github.com/PabloMK7/nex-go v1.0.41-0.20230914171540-91324b9c09ee
+replace github.com/PretendoNetwork/nex-go => github.com/PabloMK7/nex-go v1.0.41-0.20230914203248-0ad66556c9bc
 
 replace github.com/PretendoNetwork/nex-protocols-common-go v1.0.27 => github.com/PabloMK7/nex-protocols-common-go v0.0.0-20230903114306-4b24738c8c57
