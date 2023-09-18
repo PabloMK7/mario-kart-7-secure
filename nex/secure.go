@@ -3,6 +3,7 @@ package nex
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/PretendoNetwork/mario-kart-7/globals"
 	nex "github.com/PretendoNetwork/nex-go"
@@ -17,6 +18,9 @@ func StartSecureServer() {
 	globals.SecureServer.SetKerberosPassword(globals.KerberosPassword)
 
 	globals.SecureServer.SetPingTimeout(90)
+	globals.SecureServer.SetResendTimeout(time.Millisecond * 500)
+	globals.SecureServer.SetResendTimeoutIncrement(time.Millisecond * 500)
+	globals.SecureServer.SetResendMaxIterations(15)
 
 	globals.SecureServer.On("Data", func(packet *nex.PacketV0) {
 		_ = packet.RMCRequest()

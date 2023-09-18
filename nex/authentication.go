@@ -3,6 +3,7 @@ package nex
 import (
 	"fmt"
 	"os"
+	"time"
 
 	nex "github.com/PretendoNetwork/nex-go"
 	"github.com/PretendoNetwork/mario-kart-7/globals"
@@ -19,6 +20,9 @@ func StartAuthenticationServer() {
 	globals.AuthenticationServer.SetAccessKey("6181dff1")
 
 	globals.AuthenticationServer.SetPingTimeout(90)
+	globals.SecureServer.SetResendTimeout(time.Millisecond * 500)
+	globals.SecureServer.SetResendTimeoutIncrement(time.Millisecond * 500)
+	globals.SecureServer.SetResendMaxIterations(15)
 
 	globals.AuthenticationServer.On("Data", func(packet *nex.PacketV0) {
 		_ = packet.RMCRequest()
