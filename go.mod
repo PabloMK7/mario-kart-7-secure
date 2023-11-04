@@ -27,4 +27,6 @@ replace github.com/PretendoNetwork/plogger-go v1.0.4 => github.com/PabloMK7/plog
 
 replace github.com/PretendoNetwork/nex-go => github.com/PabloMK7/nex-go v1.0.41-0.20231104122426-7c742784ba83
 
-replace github.com/PretendoNetwork/nex-protocols-common-go v1.0.27 => github.com/PabloMK7/nex-protocols-common-go v0.0.0-20230903114306-4b24738c8c57
+replace github.com/PretendoNetwork/nex-protocols-common-go  => github.com/PabloMK7/nex-protocols-common-go v0.0.0-20230903114306-4b24738c8c57
+
+replace github.com/PretendoNetwork/nex-protocols-go  => github.com/PabloMK7/nex-protocols-go v1.0.52
