@@ -2,50 +2,58 @@ package nex_ticket_granting
 
 import (
 	"github.com/PretendoNetwork/mario-kart-7/globals"
-	nex "github.com/PretendoNetwork/nex-go"
+	"github.com/PretendoNetwork/nex-go"
+	"github.com/PretendoNetwork/nex-go/types"
+	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/globals"
 	ticket_granting "github.com/PretendoNetwork/nex-protocols-go/ticket-granting"
 )
 
-func RequestTicket(err error, client *nex.Client, callID uint32, userPID uint32, targetPID uint32) uint32 {
+func RequestTicket(err error, packet nex.PacketInterface, callID uint32, idSource *types.PID, idTarget *types.PID) (*nex.RMCMessage, *nex.Error) {
 	if err != nil {
-		globals.Logger.Error(err.Error())
-		return nex.Errors.Core.InvalidArgument
+		common_globals.Logger.Error(err.Error())
+		return nil, nex.NewError(nex.ResultCodes.Core.InvalidArgument, "change_error")
 	}
 
-	encryptedTicket, errorCode := generateTicket(userPID, targetPID, "")
+	connection := packet.Sender()
+	endpoint := connection.Endpoint().(*nex.PRUDPEndPoint)
 
-	rmcResponse := nex.NewRMCResponse(ticket_granting.ProtocolID, callID)
-
-	// If the source or target pid is invalid, the %retval% field is set to Core::AccessDenied and the ticket is empty.
-	if errorCode != 0 {
-		return errorCode
+	sourceAccount, errorCode := endpoint.AccountDetailsByPID(idSource)
+	if errorCode != nil && errorCode.ResultCode != nex.ResultCodes.Core.AccessDenied {
+		return nil, errorCode
 	}
 
-	rmcResponseStream := nex.NewStreamOut(globals.AuthenticationServer)
+	targetAccount, errorCode := endpoint.AccountDetailsByPID(idTarget)
+	if errorCode != nil && errorCode.ResultCode != nex.ResultCodes.Core.AccessDenied {
+		return nil, errorCode
+	}
 
-	rmcResponseStream.WriteResult(nex.NewResultSuccess(nex.Errors.Core.Unknown))
-	rmcResponseStream.WriteBuffer(encryptedTicket)
+	encryptedTicket, errorCode := generateTicket(sourceAccount, targetAccount, globals.AuthenticationServer.SessionKeyLength, endpoint)
+	if errorCode != nil && errorCode.ResultCode != nex.ResultCodes.Core.AccessDenied {
+		return nil, errorCode
+	}
+
+	// * From the wiki:
+	// *
+	// * "If the source or target pid is invalid, the %retval% field is set to Core::AccessDenied and the ticket is empty."
+	retval := types.NewQResultSuccess(nex.ResultCodes.Core.Unknown)
+	bufResponse := types.NewBuffer(encryptedTicket)
+
+	if errorCode != nil {
+		retval = types.NewQResultError(nex.ResultCodes.Core.AccessDenied)
+		bufResponse = types.NewBuffer([]byte{})
+	}
+
+	rmcResponseStream := nex.NewByteStreamOut(endpoint.LibraryVersions(), endpoint.ByteStreamSettings())
+
+	retval.WriteTo(rmcResponseStream)
+	bufResponse.WriteTo(rmcResponseStream)
 
 	rmcResponseBody := rmcResponseStream.Bytes()
 
-	rmcResponse.SetSuccess(ticket_granting.MethodRequestTicket, rmcResponseBody)
+	rmcResponse := nex.NewRMCSuccess(endpoint, rmcResponseBody)
+	rmcResponse.ProtocolID = ticket_granting.ProtocolID
+	rmcResponse.MethodID = ticket_granting.MethodRequestTicket
+	rmcResponse.CallID = callID
 
-	rmcResponseBytes := rmcResponse.Bytes()
-
-	var responsePacket nex.PacketInterface
-
-	responsePacket, _ = nex.NewPacketV0(client, nil)
-	responsePacket.SetVersion(0)
-
-	responsePacket.SetSource(0xA1)
-	responsePacket.SetDestination(0xAF)
-	responsePacket.SetType(nex.DataPacket)
-	responsePacket.SetPayload(rmcResponseBytes)
-
-	responsePacket.AddFlag(nex.FlagNeedsAck)
-	responsePacket.AddFlag(nex.FlagReliable)
-
-	globals.AuthenticationServer.Send(responsePacket)
-
-	return 0
+	return rmcResponse, nil
 }

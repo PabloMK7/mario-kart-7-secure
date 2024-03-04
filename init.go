@@ -5,6 +5,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/PretendoNetwork/nex-go"
+	"github.com/PretendoNetwork/nex-go/types"
 	"github.com/PretendoNetwork/mario-kart-7/globals"
 	"github.com/PretendoNetwork/plogger-go"
 	"github.com/joho/godotenv"
@@ -30,6 +32,9 @@ func init() {
 	} else {
 		globals.KerberosPassword = kerberosPassword
 	}
+
+	globals.AuthenticationServerAccount = nex.NewAccount(types.NewPID(1), "Quazal Authentication", globals.KerberosPassword)
+	globals.SecureServerAccount = nex.NewAccount(types.NewPID(2), "Quazal Rendez-Vous", globals.KerberosPassword)
 
 	if strings.TrimSpace(authenticationServerPort) == "" {
 		globals.Logger.Error("PN_MK7_AUTHENTICATION_SERVER_PORT environment variable not set")

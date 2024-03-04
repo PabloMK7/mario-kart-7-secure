@@ -3,91 +3,49 @@ package nex_ticket_granting
 import (
 	"crypto/rand"
 
-	"github.com/PretendoNetwork/mario-kart-7/globals"
 	"github.com/PretendoNetwork/nex-go"
+	"github.com/PretendoNetwork/nex-go/types"
+	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/globals"
 )
 
-var passwords map[uint32]string = make(map[uint32]string)
-
-func generateTicket(userPID uint32, targetPID uint32, password string) ([]byte, uint32) {
-	var userPassword string
-	var targetPassword string
-
-	// TODO - Maybe we should error out if the user PID is the server account?
-	switch userPID {
-	case 2: // "Quazal Rendez-Vous" (the server user) account
-		userPassword = globals.KerberosPassword
-	case 100: // guest user account
-		userPassword = "MMQea3n!fsik"
-	default:
-		userPassword = password
+func generateTicket(source, target *nex.Account, sessionKeyLength int, endpoint *nex.PRUDPEndPoint) ([]byte, *nex.Error) {
+	if source == nil || target == nil {
+		return []byte{}, nex.NewError(nex.ResultCodes.Authentication.Unknown, "Source or target account is nil")
 	}
 
-	if _, ok := passwords[userPID]; !ok {
-		if userPassword == "" {
-			return []byte{}, nex.Errors.RendezVous.InvalidUsername
-		}
+	sourceKey := nex.DeriveKerberosKey(source.PID, []byte(source.Password))
+	targetKey := nex.DeriveKerberosKey(target.PID, []byte(target.Password))
+	sessionKey := make([]byte, sessionKeyLength)
 
-		passwords[userPID] = userPassword
-	}
-
-	if userPassword == "" {
-		userPassword = passwords[userPID]
-	}
-
-	switch targetPID {
-	case 2: // "Quazal Rendez-Vous" (the server user) account
-		targetPassword = globals.KerberosPassword
-	case 100: // guest user account
-		targetPassword = "MMQea3n!fsik"
-	default:
-		targetPassword = password
-	}
-
-	if _, ok := passwords[targetPID]; !ok {
-		if targetPassword == "" {
-			return []byte{}, nex.Errors.RendezVous.InvalidUsername
-		}
-
-		passwords[targetPID] = targetPassword
-	}
-
-	if targetPassword == "" {
-		targetPassword = passwords[targetPID]
-	}
-
-	userKey := nex.DeriveKerberosKey(userPID, []byte(userPassword))
-	targetKey := nex.DeriveKerberosKey(targetPID, []byte(targetPassword))
-	sessionKey := make([]byte, globals.AuthenticationServer.KerberosKeySize())
 	_, err := rand.Read(sessionKey)
 	if err != nil {
-		globals.Logger.Error(err.Error())
-		return []byte{}, nex.Errors.Authentication.Unknown
+		common_globals.Logger.Error(err.Error())
+		return []byte{}, nex.NewError(nex.ResultCodes.Authentication.Unknown, "Failed to generate session key")
 	}
 
-	ticketInternalData := nex.NewKerberosTicketInternalData()
-	serverTime := nex.NewDateTime(0)
-	serverTime.UTC()
-	ticketInternalData.SetTimestamp(serverTime)
-	ticketInternalData.SetUserPID(userPID)
-	ticketInternalData.SetSessionKey(sessionKey)
+	ticketInternalData := nex.NewKerberosTicketInternalData(endpoint.Server)
+	serverTime := types.NewDateTime(0).Now()
 
-	encryptedTicketInternalData, err := ticketInternalData.Encrypt(targetKey, nex.NewStreamOut(globals.AuthenticationServer))
+	ticketInternalData.Issued = serverTime
+	ticketInternalData.SourcePID = source.PID
+	ticketInternalData.SessionKey = sessionKey
+
+	encryptedTicketInternalData, err := ticketInternalData.Encrypt(targetKey, nex.NewByteStreamOut(endpoint.LibraryVersions(), endpoint.ByteStreamSettings()))
 	if err != nil {
-		globals.Logger.Error(err.Error())
-		return []byte{}, nex.Errors.Authentication.Unknown
+		common_globals.Logger.Error(err.Error())
+		return []byte{}, nex.NewError(nex.ResultCodes.Authentication.Unknown, "Failed to encrypt Ticket Internal Data")
 	}
 
 	ticket := nex.NewKerberosTicket()
-	ticket.SetSessionKey(sessionKey)
-	ticket.SetTargetPID(targetPID)
-	ticket.SetInternalData(encryptedTicketInternalData)
+	ticket.SessionKey = sessionKey
+	ticket.TargetPID = target.PID
+	ticket.InternalData = types.NewBuffer(encryptedTicketInternalData)
 
-	encryptedTicket, err := ticket.Encrypt(userKey, nex.NewStreamOut(globals.AuthenticationServer))
+	encryptedTicket, err := ticket.Encrypt(sourceKey, nex.NewByteStreamOut(endpoint.LibraryVersions(), endpoint.ByteStreamSettings()))
 	if err != nil {
-		globals.Logger.Error(err.Error())
-		return []byte{}, nex.Errors.Authentication.Unknown
+		common_globals.Logger.Error(err.Error())
+		return []byte{}, nex.NewError(nex.ResultCodes.Authentication.Unknown, "Failed to encrypt Ticket")
 	}
 
-	return encryptedTicket, 0
+	return encryptedTicket, nil
 }

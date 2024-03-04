@@ -2,39 +2,29 @@ package nex_storage_manager
 
 import (
 	"github.com/PretendoNetwork/mario-kart-7/globals"
-	nex "github.com/PretendoNetwork/nex-go"
+	"github.com/PretendoNetwork/nex-go"
+	"github.com/PretendoNetwork/nex-go/types"
 	storage_manager "github.com/PretendoNetwork/nex-protocols-go/storage-manager"
 )
 
-func AcquireCardID(err error, client *nex.Client, callID uint32) uint32 {
+func AcquireCardID(err error, packet nex.PacketInterface, callID uint32) (*nex.RMCMessage, *nex.Error) {
 	if err != nil {
 		globals.Logger.Error(err.Error())
-		return nex.Errors.Core.Unknown
+		return nil, nex.NewError(nex.ResultCodes.Core.Unknown, err.Error())
 	}
 
-	rmcResponseStream := nex.NewStreamOut(globals.SecureServer)
+	cardID := types.NewPrimitiveU64(1) // Card ID
 
-	rmcResponseStream.WriteUInt64LE(1) // Card ID
+	rmcResponseStream := nex.NewByteStreamOut(globals.SecureServer.LibraryVersions, globals.SecureServer.ByteStreamSettings)
+
+	cardID.WriteTo(rmcResponseStream)
 
 	rmcResponseBody := rmcResponseStream.Bytes()
 
-	rmcResponse := nex.NewRMCResponse(storage_manager.ProtocolID, callID)
-	rmcResponse.SetSuccess(storage_manager.MethodAcquireCardID, rmcResponseBody)
+	rmcResponse := nex.NewRMCSuccess(globals.SecureEndpoint, rmcResponseBody)
+	rmcResponse.ProtocolID = storage_manager.ProtocolID
+	rmcResponse.MethodID = storage_manager.MethodAcquireCardID
+	rmcResponse.CallID = callID
 
-	rmcResponseBytes := rmcResponse.Bytes()
-
-	responsePacket, _ := nex.NewPacketV0(client, nil)
-
-	responsePacket.SetVersion(0)
-	responsePacket.SetSource(0xA1)
-	responsePacket.SetDestination(0xAF)
-	responsePacket.SetType(nex.DataPacket)
-	responsePacket.SetPayload(rmcResponseBytes)
-
-	responsePacket.AddFlag(nex.FlagNeedsAck)
-	responsePacket.AddFlag(nex.FlagReliable)
-
-	globals.SecureServer.Send(responsePacket)
-
-	return 0
+	return rmcResponse, nil
 }
