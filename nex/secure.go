@@ -1,7 +1,6 @@
 package nex
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 
@@ -17,6 +16,11 @@ func StartSecureServer() {
 	globals.SecureEndpoint.ServerAccount = globals.SecureServerAccount
 	globals.SecureEndpoint.AccountDetailsByPID = globals.AccountDetailsByPID
 	globals.SecureEndpoint.AccountDetailsByUsername = globals.AccountDetailsByUsername
+	globals.SecureEndpoint.DefaultStreamSettings.MaxSilenceTime = 90000
+	globals.SecureEndpoint.DefaultStreamSettings.KeepAliveTimeout = 500
+	globals.SecureEndpoint.DefaultStreamSettings.ExtraRestransmitTimeoutTrigger = 0xFFFFFFFF
+	globals.SecureEndpoint.DefaultStreamSettings.RetransmitTimeoutMultiplier = 1.0
+	globals.SecureEndpoint.DefaultStreamSettings.MaxPacketRetransmissions = 15
 	globals.SecureServer.BindPRUDPEndPoint(globals.SecureEndpoint)
 
 	globals.SecureServer.LibraryVersions.SetDefault(nex.NewLibraryVersion(2, 4, 3))
@@ -25,10 +29,10 @@ func StartSecureServer() {
 	globals.SecureEndpoint.OnData(func(packet nex.PacketInterface) {
 		request := packet.RMCMessage()
 
-		fmt.Println("=== MK7 - Secure ===")
-		fmt.Printf("Protocol ID: %#v\n", request.ProtocolID)
-		fmt.Printf("Method ID: %#v\n", request.MethodID)
-		fmt.Println("====================")
+		globals.Logger.Info("=== MK7 - Secure ===")
+		globals.Logger.Infof("Protocol ID: %#v", request.ProtocolID)
+		globals.Logger.Infof("Method ID: %#v", request.MethodID)
+		globals.Logger.Info("====================")
 	})
 
 	registerCommonSecureServerProtocols()

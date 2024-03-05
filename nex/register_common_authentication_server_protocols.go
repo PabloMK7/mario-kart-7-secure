@@ -3,16 +3,19 @@ package nex
 import (
 	"os"
 
-	"github.com/PretendoNetwork/nex-go/types"
-	ticket_granting "github.com/PretendoNetwork/nex-protocols-go/ticket-granting"
-	common_ticket_granting "github.com/PretendoNetwork/nex-protocols-common-go/ticket-granting"
 	"github.com/PretendoNetwork/mario-kart-7/globals"
+	nex_ticket_granting "github.com/PretendoNetwork/mario-kart-7/nex/ticket-granting"
+	"github.com/PretendoNetwork/nex-go/types"
+	common_ticket_granting "github.com/PretendoNetwork/nex-protocols-common-go/ticket-granting"
+	ticket_granting "github.com/PretendoNetwork/nex-protocols-go/ticket-granting"
 )
 
 func registerCommonAuthenticationServerProtocols() {
 	ticketGrantingProtocol := ticket_granting.NewProtocol()
 	globals.AuthenticationEndpoint.RegisterServiceProtocol(ticketGrantingProtocol)
 	globals.CommonTicketGrantingProtocol = common_ticket_granting.NewCommonProtocol(ticketGrantingProtocol)
+	ticketGrantingProtocol.SetHandlerLoginEx(nex_ticket_granting.LoginEx)
+	ticketGrantingProtocol.SetHandlerRequestTicket(nex_ticket_granting.RequestTicket)
 
 	secureStationURL := types.NewStationURL("")
 	secureStationURL.Scheme = "prudps"

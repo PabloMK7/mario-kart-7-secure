@@ -14,6 +14,8 @@ import (
 
 func init() {
 	globals.Logger = plogger.NewLogger()
+	plogger.LogToFile = false
+	plogger.LogToStdOut = false
 
 	var err error
 
@@ -26,6 +28,7 @@ func init() {
 	authenticationServerPort := os.Getenv("PN_MK7_AUTHENTICATION_SERVER_PORT")
 	secureServerHost := os.Getenv("PN_MK7_SECURE_SERVER_HOST")
 	secureServerPort := os.Getenv("PN_MK7_SECURE_SERVER_PORT")
+	globals.PasswordServerURL = os.Getenv("PN_MK7_PASSWORD_SERVER_URL")
 
 	if strings.TrimSpace(kerberosPassword) == "" {
 		globals.Logger.Warningf("PN_MK7_KERBEROS_PASSWORD environment variable not set. Using default password: %q", globals.KerberosPassword)
@@ -35,6 +38,7 @@ func init() {
 
 	globals.AuthenticationServerAccount = nex.NewAccount(types.NewPID(1), "Quazal Authentication", globals.KerberosPassword)
 	globals.SecureServerAccount = nex.NewAccount(types.NewPID(2), "Quazal Rendez-Vous", globals.KerberosPassword)
+	globals.GuestAccount = nex.NewAccount(types.NewPID(100), "guest", "MMQea3n!fsik")
 
 	if strings.TrimSpace(authenticationServerPort) == "" {
 		globals.Logger.Error("PN_MK7_AUTHENTICATION_SERVER_PORT environment variable not set")

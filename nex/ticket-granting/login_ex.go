@@ -25,13 +25,13 @@ func LoginEx(err error, packet nex.PacketInterface, callID uint32, strUserName *
 	connection := packet.Sender().(*nex.PRUDPConnection)
 	endpoint := connection.Endpoint().(*nex.PRUDPEndPoint)
 
-	sourceAccount, errorCode := globals.CTGP7AccountDetailsByUsername(strUserName.Value, authenticationInfo.Token.Value)
+	sourceAccount, errorCode := globals.CTGP7AccountDetailsByUsername(strUserName.Value, globals.CTGP7TokenToPassword(authenticationInfo.Token.Value))
 	if errorCode != nil && errorCode.ResultCode != nex.ResultCodes.RendezVous.InvalidUsername {
 		// * Some other error happened
 		return nil, errorCode
 	}
 
-	targetAccount, errorCode := globals.CTGP7AccountDetailsByUsername(globals.SecureServerAccount.Username, authenticationInfo.Token.Value)
+	targetAccount, errorCode := globals.CTGP7AccountDetailsByUsername(globals.SecureServerAccount.Username, "")
 	if errorCode != nil && errorCode.ResultCode != nex.ResultCodes.RendezVous.InvalidUsername {
 		// * Some other error happened
 		return nil, errorCode

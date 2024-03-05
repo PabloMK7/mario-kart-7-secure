@@ -1,7 +1,6 @@
 package nex
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 
@@ -18,6 +17,11 @@ func StartAuthenticationServer() {
 	globals.AuthenticationEndpoint.ServerAccount = globals.AuthenticationServerAccount
 	globals.AuthenticationEndpoint.AccountDetailsByPID = globals.AccountDetailsByPID
 	globals.AuthenticationEndpoint.AccountDetailsByUsername = globals.AccountDetailsByUsername
+	globals.AuthenticationEndpoint.DefaultStreamSettings.MaxSilenceTime = 90000
+	globals.AuthenticationEndpoint.DefaultStreamSettings.KeepAliveTimeout = 500
+	globals.AuthenticationEndpoint.DefaultStreamSettings.ExtraRestransmitTimeoutTrigger = 0xFFFFFFFF
+	globals.AuthenticationEndpoint.DefaultStreamSettings.RetransmitTimeoutMultiplier = 1.0
+	globals.AuthenticationEndpoint.DefaultStreamSettings.MaxPacketRetransmissions = 15
 	globals.AuthenticationServer.BindPRUDPEndPoint(globals.AuthenticationEndpoint)
 
 	globals.AuthenticationServer.LibraryVersions.SetDefault(nex.NewLibraryVersion(2, 4, 3))
@@ -26,10 +30,10 @@ func StartAuthenticationServer() {
 	globals.AuthenticationEndpoint.OnData(func(packet nex.PacketInterface) {
 		request := packet.RMCMessage()
 
-		fmt.Println("=== MK7 - Auth ===")
-		fmt.Printf("Protocol ID: %#v\n", request.ProtocolID)
-		fmt.Printf("Method ID: %#v\n", request.MethodID)
-		fmt.Println("==================")
+		globals.Logger.Info("=== MK7 - Auth ===")
+		globals.Logger.Infof("Protocol ID: %#v", request.ProtocolID)
+		globals.Logger.Infof("Method ID: %#v", request.MethodID)
+		globals.Logger.Info("==================")
 	})
 
 	registerCommonAuthenticationServerProtocols()
