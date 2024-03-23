@@ -3,8 +3,8 @@ module github.com/PretendoNetwork/mario-kart-7
 go 1.21
 
 require (
-	github.com/PretendoNetwork/nex-go v1.0.42-0.20240227233416-fcf3430788c7
-	github.com/PretendoNetwork/nex-protocols-common-go v1.0.30-0.20240317223734-34f42e501d07
+	github.com/PretendoNetwork/nex-go v1.0.42-0.20240323192436-24a197d7477f
+	github.com/PretendoNetwork/nex-protocols-common-go v1.0.30-0.20240323203823-8208e97bc29a
 	github.com/PretendoNetwork/nex-protocols-go v1.0.59-0.20240317223213-cf42289d2b1e
 	github.com/PretendoNetwork/plogger-go v1.0.4
 	github.com/joho/godotenv v1.5.1
@@ -28,5 +28,3 @@ require (
 )
 
 replace github.com/PretendoNetwork/plogger-go v1.0.4 => github.com/PabloMK7/plogger-go v1.0.5-0.20230901225841-d5c640d3fa71
-
-replace github.com/PretendoNetwork/nex-go v1.0.42-0.20240227233416-fcf3430788c7 => github.com/PretendoNetwork/nex-go v1.0.42-0.20240317223102-115a2962317f
