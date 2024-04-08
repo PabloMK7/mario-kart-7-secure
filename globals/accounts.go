@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/PretendoNetwork/nex-go"
-	"github.com/PretendoNetwork/nex-go/types"
+	"github.com/PretendoNetwork/nex-go/v2"
+	"github.com/PretendoNetwork/nex-go/v2/types"
 )
 
 var AuthenticationServerAccount *nex.Account
@@ -88,7 +88,7 @@ func CTGP7AccountDetailsByUsername(username, password string) (*nex.Account, *ne
 		return GuestAccount, nil
 	}
 
-	pidInt, err :=  strconv.Atoi(strings.TrimRight(username, "\x00"))
+	pidInt, err := strconv.Atoi(strings.TrimRight(username, "\x00"))
 	if err != nil {
 		return nil, nex.NewError(nex.ResultCodes.RendezVous.InvalidUsername, "Invalid username")
 	}

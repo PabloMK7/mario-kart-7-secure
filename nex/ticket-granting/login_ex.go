@@ -1,11 +1,11 @@
 package nex_ticket_granting
 
 import (
-	"github.com/PretendoNetwork/nex-go"
-	"github.com/PretendoNetwork/nex-go/types"
-	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/globals"
-	ticket_granting "github.com/PretendoNetwork/nex-protocols-go/ticket-granting"
-	ticket_granting_types "github.com/PretendoNetwork/nex-protocols-go/ticket-granting/types"
+	"github.com/PretendoNetwork/nex-go/v2"
+	"github.com/PretendoNetwork/nex-go/v2/types"
+	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
+	ticket_granting "github.com/PretendoNetwork/nex-protocols-go/v2/ticket-granting"
+	ticket_granting_types "github.com/PretendoNetwork/nex-protocols-go/v2/ticket-granting/types"
 
 	"github.com/PretendoNetwork/mario-kart-7/globals"
 )

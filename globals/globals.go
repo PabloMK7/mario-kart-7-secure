@@ -1,9 +1,9 @@
 package globals
 
 import (
-	"github.com/PretendoNetwork/nex-go"
+	"github.com/PretendoNetwork/nex-go/v2"
+	common_ticket_granting "github.com/PretendoNetwork/nex-protocols-common-go/v2/ticket-granting"
 	"github.com/PretendoNetwork/plogger-go"
-	common_ticket_granting "github.com/PretendoNetwork/nex-protocols-common-go/ticket-granting"
 )
 
 var Logger *plogger.Logger

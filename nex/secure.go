@@ -4,8 +4,8 @@ import (
 	"os"
 	"strconv"
 
-	nex "github.com/PretendoNetwork/nex-go"
 	"github.com/PretendoNetwork/mario-kart-7/globals"
+	nex "github.com/PretendoNetwork/nex-go/v2"
 )
 
 func StartSecureServer() {
