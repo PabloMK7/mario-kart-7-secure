@@ -27,12 +27,12 @@ func StartSecureServer() {
 	globals.SecureServer.AccessKey = "6181dff1"
 
 	globals.SecureEndpoint.OnData(func(packet nex.PacketInterface) {
-		request := packet.RMCMessage()
+		//request := packet.RMCMessage()
 
-		globals.Logger.Info("=== MK7 - Secure ===")
-		globals.Logger.Infof("Protocol ID: %#v", request.ProtocolID)
-		globals.Logger.Infof("Method ID: %#v", request.MethodID)
-		globals.Logger.Info("====================")
+		//globals.Logger.Info("=== MK7 - Secure ===")
+		//globals.Logger.Infof("Protocol ID: %#v", request.ProtocolID)
+		//globals.Logger.Infof("Method ID: %#v", request.MethodID)
+		//globals.Logger.Info("====================")
 	})
 
 	registerCommonSecureServerProtocols()
