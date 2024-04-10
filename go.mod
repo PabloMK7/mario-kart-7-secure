@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/PretendoNetwork/nex-go/v2 v2.0.1
-	github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.2
+	github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.3
 	github.com/PretendoNetwork/nex-protocols-go/v2 v2.0.1
 	github.com/PretendoNetwork/plogger-go v1.0.4
 	github.com/joho/godotenv v1.5.1
@@ -29,4 +29,4 @@ require (
 
 replace github.com/PretendoNetwork/plogger-go v1.0.4 => github.com/PabloMK7/plogger-go v1.0.5-0.20230901225841-d5c640d3fa71
 
-replace github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.2 => github.com/PabloMK7/nex-protocols-common-go/v2 v2.0.0-20240410173814-6bf1b5b5bd31
+replace github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.3 => github.com/PabloMK7/nex-protocols-common-go/v2 v2.0.0-20240410181724-03c073ab2f54
