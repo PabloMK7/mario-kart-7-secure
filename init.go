@@ -10,12 +10,14 @@ import (
 	"github.com/PretendoNetwork/nex-go/v2/types"
 	"github.com/PretendoNetwork/plogger-go"
 	"github.com/joho/godotenv"
+	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 )
 
 func init() {
 	globals.Logger = plogger.NewLogger()
 	plogger.LogToFile = false
 	plogger.LogToStdOut = false
+	common_globals.SessionManagementDebugLog = false
 
 	var err error
 
