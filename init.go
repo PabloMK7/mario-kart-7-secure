@@ -5,12 +5,13 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/PretendoNetwork/mario-kart-7/ctgp7"
 	"github.com/PretendoNetwork/mario-kart-7/globals"
 	"github.com/PretendoNetwork/nex-go/v2"
 	"github.com/PretendoNetwork/nex-go/v2/types"
+	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 	"github.com/PretendoNetwork/plogger-go"
 	"github.com/joho/godotenv"
-	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 )
 
 func init() {
@@ -30,7 +31,7 @@ func init() {
 	authenticationServerPort := os.Getenv("PN_MK7_AUTHENTICATION_SERVER_PORT")
 	secureServerHost := os.Getenv("PN_MK7_SECURE_SERVER_HOST")
 	secureServerPort := os.Getenv("PN_MK7_SECURE_SERVER_PORT")
-	globals.PasswordServerURL = os.Getenv("PN_MK7_PASSWORD_SERVER_URL")
+	ctgp7.PasswordServerURL = os.Getenv("PN_MK7_PASSWORD_SERVER_URL")
 
 	if strings.TrimSpace(kerberosPassword) == "" {
 		globals.Logger.Warningf("PN_MK7_KERBEROS_PASSWORD environment variable not set. Using default password: %q", globals.KerberosPassword)

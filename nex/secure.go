@@ -4,6 +4,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/PretendoNetwork/mario-kart-7/ctgp7"
 	"github.com/PretendoNetwork/mario-kart-7/globals"
 	nex "github.com/PretendoNetwork/nex-go/v2"
 )
@@ -14,9 +15,9 @@ func StartSecureServer() {
 	globals.SecureEndpoint = nex.NewPRUDPEndPoint(1)
 	globals.SecureEndpoint.IsSecureEndPoint = true
 	globals.SecureEndpoint.ServerAccount = globals.SecureServerAccount
-	globals.SecureEndpoint.AccountDetailsByPID = globals.AccountDetailsByPID
-	globals.SecureEndpoint.AccountDetailsByUsername = globals.AccountDetailsByUsername
-	globals.SecureEndpoint.DefaultStreamSettings.MaxSilenceTime = 90000
+	globals.SecureEndpoint.AccountDetailsByPID = ctgp7.AccountDetailsByPID
+	globals.SecureEndpoint.AccountDetailsByUsername = ctgp7.AccountDetailsByUsername
+	globals.SecureEndpoint.DefaultStreamSettings.MaxSilenceTime = 90000 / 2
 	globals.SecureEndpoint.DefaultStreamSettings.KeepAliveTimeout = 500
 	globals.SecureEndpoint.DefaultStreamSettings.ExtraRestransmitTimeoutTrigger = 0xFFFFFFFF
 	globals.SecureEndpoint.DefaultStreamSettings.RetransmitTimeoutMultiplier = 1.0
@@ -40,5 +41,6 @@ func StartSecureServer() {
 
 	port, _ := strconv.Atoi(os.Getenv("PN_MK7_SECURE_SERVER_PORT"))
 
+	ctgp7.CTGP7HTTPReadyToServe = true
 	globals.SecureServer.Listen(port)
 }

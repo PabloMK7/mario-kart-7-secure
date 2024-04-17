@@ -1,12 +1,13 @@
 package nex
 
 import (
+	"github.com/PretendoNetwork/mario-kart-7/ctgp7"
 	"github.com/PretendoNetwork/mario-kart-7/globals"
+	common_match_making "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making"
+	common_match_making_ext "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making-ext"
 	common_matchmake_extension "github.com/PretendoNetwork/nex-protocols-common-go/v2/matchmake-extension"
 	common_nat_traversal "github.com/PretendoNetwork/nex-protocols-common-go/v2/nat-traversal"
 	common_secure "github.com/PretendoNetwork/nex-protocols-common-go/v2/secure-connection"
-	common_match_making "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making"
-	common_match_making_ext "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making-ext"
 	match_making "github.com/PretendoNetwork/nex-protocols-go/v2/match-making"
 	match_making_ext "github.com/PretendoNetwork/nex-protocols-go/v2/match-making-ext"
 	matchmake_extension "github.com/PretendoNetwork/nex-protocols-go/v2/matchmake-extension"
@@ -23,7 +24,7 @@ func registerCommonSecureServerProtocols() {
 
 	natTraversalProtocol := nat_traversal.NewProtocol()
 	globals.SecureEndpoint.RegisterServiceProtocol(natTraversalProtocol)
-	common_nat_traversal.NewCommonProtocol(natTraversalProtocol)
+	commonNatTraversalProtocol := common_nat_traversal.NewCommonProtocol(natTraversalProtocol)
 
 	matchMakingProtocol := match_making.NewProtocol()
 	globals.SecureEndpoint.RegisterServiceProtocol(matchMakingProtocol)
@@ -38,4 +39,5 @@ func registerCommonSecureServerProtocols() {
 	commonMatchmakeExtensionProtocol := common_matchmake_extension.NewCommonProtocol(matchmakeExtensionProtocol)
 
 	commonMatchmakeExtensionProtocol.CleanupSearchMatchmakeSession = nex_matchmake_extension_common.CleanupSearchMatchmakeSession
+	commonNatTraversalProtocol.OnAfterReportNATTraversalResult = ctgp7.OnAfterReportNATTraversalResult;
 }

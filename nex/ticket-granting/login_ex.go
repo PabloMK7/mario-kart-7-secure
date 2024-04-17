@@ -7,6 +7,7 @@ import (
 	ticket_granting "github.com/PretendoNetwork/nex-protocols-go/v2/ticket-granting"
 	ticket_granting_types "github.com/PretendoNetwork/nex-protocols-go/v2/ticket-granting/types"
 
+	"github.com/PretendoNetwork/mario-kart-7/ctgp7"
 	"github.com/PretendoNetwork/mario-kart-7/globals"
 )
 
@@ -25,13 +26,13 @@ func LoginEx(err error, packet nex.PacketInterface, callID uint32, strUserName *
 	connection := packet.Sender().(*nex.PRUDPConnection)
 	endpoint := connection.Endpoint().(*nex.PRUDPEndPoint)
 
-	sourceAccount, errorCode := globals.CTGP7AccountDetailsByUsername(strUserName.Value, globals.CTGP7TokenToPassword(authenticationInfo.Token.Value))
+	sourceAccount, errorCode := ctgp7.CTGP7AccountDetailsByUsername(strUserName.Value, ctgp7.CTGP7TokenToPassword(authenticationInfo.Token.Value))
 	if errorCode != nil && errorCode.ResultCode != nex.ResultCodes.RendezVous.InvalidUsername {
 		// * Some other error happened
 		return nil, errorCode
 	}
 
-	targetAccount, errorCode := globals.CTGP7AccountDetailsByUsername(globals.SecureServerAccount.Username, "")
+	targetAccount, errorCode := ctgp7.CTGP7AccountDetailsByUsername(globals.SecureServerAccount.Username, "")
 	if errorCode != nil && errorCode.ResultCode != nex.ResultCodes.RendezVous.InvalidUsername {
 		// * Some other error happened
 		return nil, errorCode

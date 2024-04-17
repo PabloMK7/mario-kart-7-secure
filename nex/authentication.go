@@ -4,6 +4,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/PretendoNetwork/mario-kart-7/ctgp7"
 	"github.com/PretendoNetwork/mario-kart-7/globals"
 	"github.com/PretendoNetwork/nex-go/v2"
 )
@@ -15,9 +16,9 @@ func StartAuthenticationServer() {
 
 	globals.AuthenticationEndpoint = nex.NewPRUDPEndPoint(1)
 	globals.AuthenticationEndpoint.ServerAccount = globals.AuthenticationServerAccount
-	globals.AuthenticationEndpoint.AccountDetailsByPID = globals.AccountDetailsByPID
-	globals.AuthenticationEndpoint.AccountDetailsByUsername = globals.AccountDetailsByUsername
-	globals.AuthenticationEndpoint.DefaultStreamSettings.MaxSilenceTime = 90000
+	globals.AuthenticationEndpoint.AccountDetailsByPID = ctgp7.AccountDetailsByPID
+	globals.AuthenticationEndpoint.AccountDetailsByUsername = ctgp7.AccountDetailsByUsername
+	globals.AuthenticationEndpoint.DefaultStreamSettings.MaxSilenceTime = 90000 / 2
 	globals.AuthenticationEndpoint.DefaultStreamSettings.KeepAliveTimeout = 500
 	globals.AuthenticationEndpoint.DefaultStreamSettings.ExtraRestransmitTimeoutTrigger = 0xFFFFFFFF
 	globals.AuthenticationEndpoint.DefaultStreamSettings.RetransmitTimeoutMultiplier = 1.0

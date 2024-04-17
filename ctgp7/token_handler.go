@@ -1,4 +1,4 @@
-package globals
+package ctgp7
 
 import (
 	"crypto/tls"
@@ -8,13 +8,13 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/PretendoNetwork/mario-kart-7/globals"
 	"github.com/PretendoNetwork/nex-go/v2"
 	"github.com/PretendoNetwork/nex-go/v2/types"
 )
 
-var AuthenticationServerAccount *nex.Account
-var SecureServerAccount *nex.Account
-var GuestAccount *nex.Account
+var PasswordServerURL = "https://localhost:80/t/%s" //%s will be replaced by the token
+
 
 var passwords map[uint32]string = make(map[uint32]string)
 
@@ -26,12 +26,12 @@ func CTGP7TokenToPassword(token string) string {
 	requestURL := fmt.Sprintf(PasswordServerURL, token)
 	res, err := client.Get(requestURL)
 	if err != nil {
-		Logger.Error(err.Error())
+		globals.Logger.Error(err.Error())
 		return "err"
 	}
 	resBody, err := io.ReadAll(res.Body)
 	if err != nil {
-		Logger.Error(err.Error())
+		globals.Logger.Error(err.Error())
 		return "err"
 	}
 	return string(resBody)
@@ -42,16 +42,16 @@ func AccountDetailsByPID(pid *types.PID) (*nex.Account, *nex.Error) {
 }
 
 func CTGP7AccountDetailsByPID(pid *types.PID, password string) (*nex.Account, *nex.Error) {
-	if pid.Equals(AuthenticationServerAccount.PID) {
-		return AuthenticationServerAccount, nil
+	if pid.Equals(globals.AuthenticationServerAccount.PID) {
+		return globals.AuthenticationServerAccount, nil
 	}
 
-	if pid.Equals(SecureServerAccount.PID) {
-		return SecureServerAccount, nil
+	if pid.Equals(globals.SecureServerAccount.PID) {
+		return globals.SecureServerAccount, nil
 	}
 
-	if pid.Equals(GuestAccount.PID) {
-		return GuestAccount, nil
+	if pid.Equals(globals.GuestAccount.PID) {
+		return globals.GuestAccount, nil
 	}
 
 	if _, ok := passwords[pid.LegacyValue()]; !ok {
@@ -76,16 +76,16 @@ func AccountDetailsByUsername(username string) (*nex.Account, *nex.Error) {
 }
 
 func CTGP7AccountDetailsByUsername(username, password string) (*nex.Account, *nex.Error) {
-	if username == AuthenticationServerAccount.Username {
-		return AuthenticationServerAccount, nil
+	if username == globals.AuthenticationServerAccount.Username {
+		return globals.AuthenticationServerAccount, nil
 	}
 
-	if username == SecureServerAccount.Username {
-		return SecureServerAccount, nil
+	if username == globals.SecureServerAccount.Username {
+		return globals.SecureServerAccount, nil
 	}
 
-	if username == GuestAccount.Username {
-		return GuestAccount, nil
+	if username == globals.GuestAccount.Username {
+		return globals.GuestAccount, nil
 	}
 
 	pidInt, err := strconv.Atoi(strings.TrimRight(username, "\x00"))

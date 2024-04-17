@@ -13,4 +13,6 @@ var AuthenticationEndpoint *nex.PRUDPEndPoint
 var SecureServer *nex.PRUDPServer
 var SecureEndpoint *nex.PRUDPEndPoint
 var CommonTicketGrantingProtocol *common_ticket_granting.CommonProtocol
-var PasswordServerURL = "https://localhost:80/t/%s" //%s will be replaced by the token
+var AuthenticationServerAccount *nex.Account
+var SecureServerAccount *nex.Account
+var GuestAccount *nex.Account
