@@ -36,6 +36,8 @@ func StartSecureServer() {
 		//globals.Logger.Info("====================")
 	})
 
+	globals.SecureEndpoint.OnConnectionEnded(ctgp7.OnConnectionEnded)
+
 	registerCommonSecureServerProtocols()
 	registerSecureServerNEXProtocols()
 

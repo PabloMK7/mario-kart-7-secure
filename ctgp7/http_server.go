@@ -194,6 +194,11 @@ func OnPlayerJoinLeaveSession(gid uint32, cid uint32) {
 	// playerNATRepots.Delete(cid)
 }
 
+func OnConnectionEnded(connection *nex.PRUDPConnection) {
+	playerNATRepotsMyself.Delete(connection.ID)
+	playerNATRepotsOther.Delete(connection.ID)
+}
+
 type KickUsers struct {
 	Connections []uint32
 }
