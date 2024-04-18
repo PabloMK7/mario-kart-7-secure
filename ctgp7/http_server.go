@@ -69,7 +69,8 @@ func aes256DEC(ciphertext []byte) []byte {
 type userData struct {
 	PID uint32
 	CID uint32
-	NatReport natReport
+	NatReportMyself natReport // * Reported by myself
+	NatReportOthers natReport // * Reported by others
 }
 
 type sessionData struct {
@@ -98,11 +99,17 @@ func usersHandler(rw http.ResponseWriter, r *http.Request) {
 			ud := userData{
 				PID: connection.PID().LegacyValue(), 
 				CID: connection.ID,
-				NatReport: natReport{},
+				NatReportMyself: natReport{},
+				NatReportOthers: natReport{},
 			}
-			if report, ok := playerNATRepots.Get(connection.ID); ok {
+			if report, ok := playerNATRepotsMyself.Get(connection.ID); ok {
 				report.lock.RLock()
-				ud.NatReport.Results = report.Results
+				ud.NatReportMyself.Results = report.Results
+				report.lock.RUnlock()
+			}
+			if report, ok := playerNATRepotsOther.Get(connection.ID); ok {
+				report.lock.RLock()
+				ud.NatReportOthers.Results = report.Results
 				report.lock.RUnlock()
 			}
 			report.Users = append(report.Users, ud)
@@ -134,35 +141,57 @@ type natReport struct {
 	resultIndex int;
 	lock *sync.RWMutex;
 }
-var playerNATRepots *nex.MutexMap[uint32, *natReport]
+var playerNATRepotsMyself *nex.MutexMap[uint32, *natReport]
+var playerNATRepotsOther *nex.MutexMap[uint32, *natReport]
 
 func OnAfterReportNATTraversalResult(packet nex.PacketInterface, cid *types.PrimitiveU32, result *types.PrimitiveBool, rtt *types.PrimitiveU32) {
 	if cid == nil || result == nil {
 		return
 	}
-	natreport, ok := playerNATRepots.Get(cid.Value)
+	// * Other
+	natreportOther, ok := playerNATRepotsOther.Get(cid.Value)
 	if !ok {
-		natreport = &natReport{
+		natreportOther = &natReport{
 			resultIndex: 0,
 			lock: &sync.RWMutex{},
 		}
-		playerNATRepots.Set(cid.Value, natreport)
+		playerNATRepotsOther.Set(cid.Value, natreportOther)
 	}
-	natreport.lock.Lock()
-	defer natreport.lock.Unlock()
+	natreportOther.lock.Lock()
+	defer natreportOther.lock.Unlock()
 	if result.Value {
-		natreport.Results[natreport.resultIndex] = 2
+		natreportOther.Results[natreportOther.resultIndex] = 2
 	} else {
-		natreport.Results[natreport.resultIndex] = 1
+		natreportOther.Results[natreportOther.resultIndex] = 1
 	}
-	natreport.resultIndex++
-	if (natreport.resultIndex >= 10) {
-		natreport.resultIndex = 0
+	natreportOther.resultIndex++
+	if (natreportOther.resultIndex >= 10) {
+		natreportOther.resultIndex = 0
+	}
+	// * Myself
+	natreportMyself, ok := playerNATRepotsMyself.Get(packet.Sender().(*nex.PRUDPConnection).ID)
+	if !ok {
+		natreportMyself = &natReport{
+			resultIndex: 0,
+			lock: &sync.RWMutex{},
+		}
+		playerNATRepotsMyself.Set(packet.Sender().(*nex.PRUDPConnection).ID, natreportMyself)
+	}
+	natreportMyself.lock.Lock()
+	defer natreportMyself.lock.Unlock()
+	if result.Value {
+		natreportMyself.Results[natreportMyself.resultIndex] = 2
+	} else {
+		natreportMyself.Results[natreportMyself.resultIndex] = 1
+	}
+	natreportMyself.resultIndex++
+	if (natreportMyself.resultIndex >= 10) {
+		natreportMyself.resultIndex = 0
 	}
 }
 
 func OnPlayerJoinLeaveSession(gid uint32, cid uint32) {
-	playerNATRepots.Delete(cid)
+	// playerNATRepots.Delete(cid)
 }
 
 type KickUsers struct {
@@ -239,7 +268,8 @@ func kickHandler(rw http.ResponseWriter, r *http.Request) {
 
 func StartHttpServer() {
 	outAESKey, _ = hex.DecodeString(os.Getenv("PN_HTTP_SERVER_AES_KEY_OUT"))
-	playerNATRepots = nex.NewMutexMap[uint32, *natReport]()
+	playerNATRepotsMyself = nex.NewMutexMap[uint32, *natReport]()
+	playerNATRepotsOther = nex.NewMutexMap[uint32, *natReport]()
 
 	common_globals.OnPlayerJoinSession(OnPlayerJoinLeaveSession)
 	common_globals.OnPlayerLeaveSession(func (gid uint32, cid uint32, gracefully bool) {OnPlayerJoinLeaveSession(gid, cid)})
