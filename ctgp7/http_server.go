@@ -137,7 +137,7 @@ func usersHandler(rw http.ResponseWriter, r *http.Request) {
 }
 
 type natReport struct {
-	Results [10]int; // 0 -> Not initialized, 1 -> False, 2 -> True
+	Results [4]int; // 0 -> Not initialized, 1 -> False, 2 -> True
 	resultIndex int;
 	lock *sync.RWMutex;
 }
@@ -165,7 +165,7 @@ func OnAfterReportNATTraversalResult(packet nex.PacketInterface, cid *types.Prim
 		natreportOther.Results[natreportOther.resultIndex] = 1
 	}
 	natreportOther.resultIndex++
-	if (natreportOther.resultIndex >= 10) {
+	if (natreportOther.resultIndex >= 4) {
 		natreportOther.resultIndex = 0
 	}
 	// * Myself
@@ -185,7 +185,7 @@ func OnAfterReportNATTraversalResult(packet nex.PacketInterface, cid *types.Prim
 		natreportMyself.Results[natreportMyself.resultIndex] = 1
 	}
 	natreportMyself.resultIndex++
-	if (natreportMyself.resultIndex >= 10) {
+	if (natreportMyself.resultIndex >= 4) {
 		natreportMyself.resultIndex = 0
 	}
 }
