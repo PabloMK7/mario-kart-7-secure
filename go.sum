@@ -4,6 +4,8 @@ github.com/PabloMK7/nex-go/v2 v2.0.0-20240418124740-b1a338786fac h1:rLspZnn9T2v3
 github.com/PabloMK7/nex-go/v2 v2.0.0-20240418124740-b1a338786fac/go.mod h1:EZNyRVr0WpPLHZQqZZvarQ8/tXsEyVqLr6zy/hKCAV4=
 github.com/PabloMK7/nex-go/v2 v2.0.0-20240418125101-90d81f6eb9fa h1:UTKBIm6+1colFyYgdo3rQ0BGXHxcQUYTrk9oPqRjASM=
 github.com/PabloMK7/nex-go/v2 v2.0.0-20240418125101-90d81f6eb9fa/go.mod h1:EZNyRVr0WpPLHZQqZZvarQ8/tXsEyVqLr6zy/hKCAV4=
+github.com/PabloMK7/nex-go/v2 v2.0.0-20240427204723-4cb78b1ec861 h1:Y3/jfDKiy6aIr98BcQoiyv6R0hVwpIvdm+HGHDNkBLw=
+github.com/PabloMK7/nex-go/v2 v2.0.0-20240427204723-4cb78b1ec861/go.mod h1:EZNyRVr0WpPLHZQqZZvarQ8/tXsEyVqLr6zy/hKCAV4=
 github.com/PabloMK7/nex-protocols-common-go/v2 v2.0.0-20240417174616-f776b51a90db h1:sVQtmmWaNImmy5mNCpFEJEh723fdrobNFEKfu6WpTac=
 github.com/PabloMK7/nex-protocols-common-go/v2 v2.0.0-20240417174616-f776b51a90db/go.mod h1:YEnnM1XDVGf34885MdHcRwZR/g9Qvjn3qkXlGlgiGPk=
 github.com/PabloMK7/plogger-go v1.0.5-0.20230901225841-d5c640d3fa71 h1:8IJNJoAwTh5Dyr39g/hryr43H2DyO0VENSEN80mdgNU=
