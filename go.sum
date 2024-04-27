@@ -10,8 +10,12 @@ github.com/PabloMK7/nex-protocols-common-go/v2 v2.0.0-20240417174616-f776b51a90d
 github.com/PabloMK7/nex-protocols-common-go/v2 v2.0.0-20240417174616-f776b51a90db/go.mod h1:YEnnM1XDVGf34885MdHcRwZR/g9Qvjn3qkXlGlgiGPk=
 github.com/PabloMK7/plogger-go v1.0.5-0.20230901225841-d5c640d3fa71 h1:8IJNJoAwTh5Dyr39g/hryr43H2DyO0VENSEN80mdgNU=
 github.com/PabloMK7/plogger-go v1.0.5-0.20230901225841-d5c640d3fa71/go.mod h1:7kD6M4vPq1JL4LTuPg6kuB1OvUBOwQOtAvTaUwMbwvU=
+github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.4 h1:W+ar2hIt32J58mCH6W+5USLAvMbZJsILWFMpsRhfFFo=
+github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.4/go.mod h1:YEnnM1XDVGf34885MdHcRwZR/g9Qvjn3qkXlGlgiGPk=
 github.com/PretendoNetwork/nex-protocols-go/v2 v2.0.1 h1:BqrHYF2JeYfB/JUmhU3pWR1qUJEEqUDM4pigXzi95Ik=
 github.com/PretendoNetwork/nex-protocols-go/v2 v2.0.1/go.mod h1:TAzlc/gOu6E5Ct2NoTpN+Ea9Gpjh38dTsGqfs0pfZ4w=
+github.com/PretendoNetwork/nex-protocols-go/v2 v2.0.2 h1:LSVG0/1XH0mh2UA0NlYJ4SpoywSkcZ6iR1p0haXYVo8=
+github.com/PretendoNetwork/nex-protocols-go/v2 v2.0.2/go.mod h1:TAzlc/gOu6E5Ct2NoTpN+Ea9Gpjh38dTsGqfs0pfZ4w=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dolthub/maphash v0.1.0 h1:bsQ7JsF4FkkWyrP3oCnFJgrCUAFbFf3kOl4L/QxPDyQ=
@@ -28,6 +32,8 @@ github.com/klauspost/compress v1.17.8 h1:YcnTYrq7MikUT7k0Yb5eceMmALQPYBW/Xltxn0N
 github.com/klauspost/compress v1.17.8/go.mod h1:Di0epgTjJY877eYKx5yC51cX2A2Vl2ibi7bDH9ttBbw=
 github.com/lxzan/gws v1.8.1 h1:+Oc2f8U0YUE7mkBKUYUABvszUB9pfTfPQl7C26PW+LE=
 github.com/lxzan/gws v1.8.1/go.mod h1:FcGeRMB7HwGuTvMLR24ku0Zx0p6RXqeKASeMc4VYgi4=
+github.com/lxzan/gws v1.8.2 h1:zN6cdOVtM4DJHq/zxNpTvV2lB3t0ipYhM+S7CxR05wM=
+github.com/lxzan/gws v1.8.2/go.mod h1:FcGeRMB7HwGuTvMLR24ku0Zx0p6RXqeKASeMc4VYgi4=
 github.com/mattn/go-colorable v0.1.13 h1:fFA4WZxdEF4tXPZVKMLwD8oUnCTTo08duU7wxecdEvA=
 github.com/mattn/go-colorable v0.1.13/go.mod h1:7S9/ev0klgBDR4GtXTXX8a3vIGJpMovkB8vQcUbaXHg=
 github.com/mattn/go-isatty v0.0.16/go.mod h1:kYGgaQfpe5nmfYZH+SKPsOc2e4SrIfOl2e/yFXSvRLM=

@@ -4,8 +4,8 @@ go 1.21
 
 require (
 	github.com/PretendoNetwork/nex-go/v2 v2.0.2-0.20240410183829-509b27408685
-	github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.3
-	github.com/PretendoNetwork/nex-protocols-go/v2 v2.0.1
+	github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.4
+	github.com/PretendoNetwork/nex-protocols-go/v2 v2.0.2
 	github.com/PretendoNetwork/plogger-go v1.0.4
 	github.com/joho/godotenv v1.5.1
 )
@@ -16,7 +16,7 @@ require (
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/jwalton/go-supportscolor v1.2.0 // indirect
 	github.com/klauspost/compress v1.17.8 // indirect
-	github.com/lxzan/gws v1.8.1 // indirect
+	github.com/lxzan/gws v1.8.2 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/rasky/go-lzo v0.0.0-20200203143853-96a758eda86e // indirect
@@ -29,6 +29,6 @@ require (
 
 replace github.com/PretendoNetwork/plogger-go v1.0.4 => github.com/PabloMK7/plogger-go v1.0.5-0.20230901225841-d5c640d3fa71
 
-replace github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.3 => github.com/PabloMK7/nex-protocols-common-go/v2 v2.0.0-20240417174616-f776b51a90db
+replace github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.4 => github.com/PabloMK7/nex-protocols-common-go/v2 v2.0.0-20240417174616-f776b51a90db
 
 replace github.com/PretendoNetwork/nex-go/v2 v2.0.2-0.20240410183829-509b27408685 => github.com/PabloMK7/nex-go/v2 v2.0.0-20240427204723-4cb78b1ec861
