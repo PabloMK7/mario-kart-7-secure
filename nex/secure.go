@@ -19,7 +19,7 @@ func StartSecureServer() {
 	globals.SecureEndpoint.AccountDetailsByUsername = ctgp7.AccountDetailsByUsername
 	globals.SecureEndpoint.DefaultStreamSettings.MaxSilenceTime = 90000 / 2
 	globals.SecureEndpoint.DefaultStreamSettings.KeepAliveTimeout = 500
-	globals.SecureEndpoint.DefaultStreamSettings.ExtraRestransmitTimeoutTrigger = 0xFFFFFFFF
+	globals.SecureEndpoint.DefaultStreamSettings.ExtraRetransmitTimeoutTrigger = 0xFFFFFFFF
 	globals.SecureEndpoint.DefaultStreamSettings.RetransmitTimeoutMultiplier = 1.0
 	globals.SecureEndpoint.DefaultStreamSettings.MaxPacketRetransmissions = 15
 	globals.SecureServer.BindPRUDPEndPoint(globals.SecureEndpoint)

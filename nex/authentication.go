@@ -20,7 +20,7 @@ func StartAuthenticationServer() {
 	globals.AuthenticationEndpoint.AccountDetailsByUsername = ctgp7.AccountDetailsByUsername
 	globals.AuthenticationEndpoint.DefaultStreamSettings.MaxSilenceTime = 90000 / 2
 	globals.AuthenticationEndpoint.DefaultStreamSettings.KeepAliveTimeout = 500
-	globals.AuthenticationEndpoint.DefaultStreamSettings.ExtraRestransmitTimeoutTrigger = 0xFFFFFFFF
+	globals.AuthenticationEndpoint.DefaultStreamSettings.ExtraRetransmitTimeoutTrigger = 0xFFFFFFFF
 	globals.AuthenticationEndpoint.DefaultStreamSettings.RetransmitTimeoutMultiplier = 1.0
 	globals.AuthenticationEndpoint.DefaultStreamSettings.MaxPacketRetransmissions = 15
 	globals.AuthenticationServer.BindPRUDPEndPoint(globals.AuthenticationEndpoint)
