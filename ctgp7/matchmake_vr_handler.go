@@ -5,6 +5,7 @@ import (
 
 	nex "github.com/PretendoNetwork/nex-go/v2"
 	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
+	"github.com/PretendoNetwork/mario-kart-7/globals"
 	match_making_types "github.com/PretendoNetwork/nex-protocols-go/v2/match-making/types"
 )
 
@@ -53,4 +54,10 @@ func FilterFoundCandidateSessions(sessions []uint32, connection *nex.PRUDPConnec
 
 func OnConnectionEndedVRHandler(connection *nex.PRUDPConnection) {
 	playerVRs.Delete(connection.ID)
+}
+
+func InitMatchMakeVRHandler() {
+	playerVRs = nex.NewMutexMap[uint32, int32]()
+	common_globals.FilterFoundCandidateSessions(FilterFoundCandidateSessions)
+	globals.SecureEndpoint.OnConnectionEnded(OnConnectionEndedVRHandler)
 }
