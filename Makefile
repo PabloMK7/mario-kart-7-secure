@@ -55,6 +55,6 @@ default:
 ifeq ($(wildcard .env),)
 	$(warning "$(YELLOW).env file not found, environment variables may not be populated correctly$(RESET)")
 endif
-	go get -u
+	go get
 	go mod tidy
 	go build -ldflags "-X 'main.serverBuildString=$(BUILD_STRING)'" -o ./build/mario-kart-7

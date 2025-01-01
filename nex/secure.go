@@ -7,6 +7,7 @@ import (
 	"github.com/PretendoNetwork/mario-kart-7/ctgp7"
 	"github.com/PretendoNetwork/mario-kart-7/globals"
 	nex "github.com/PretendoNetwork/nex-go/v2"
+	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 )
 
 func StartSecureServer() {
@@ -37,6 +38,8 @@ func StartSecureServer() {
 	})
 
 	globals.SecureEndpoint.OnConnectionEnded(ctgp7.OnConnectionEnded)
+	globals.SecureEndpoint.OnConnectionEnded(ctgp7.OnConnectionEndedVRHandler)
+	common_globals.FilterFoundCandidateSessions(ctgp7.FilterFoundCandidateSessions)
 
 	registerCommonSecureServerProtocols()
 	registerSecureServerNEXProtocols()
