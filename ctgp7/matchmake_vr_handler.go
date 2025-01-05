@@ -1,11 +1,12 @@
 package ctgp7
 
 import (
+	"math"
 	"sort"
 
+	"github.com/PretendoNetwork/mario-kart-7/globals"
 	nex "github.com/PretendoNetwork/nex-go/v2"
 	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
-	"github.com/PretendoNetwork/mario-kart-7/globals"
 	match_making_types "github.com/PretendoNetwork/nex-protocols-go/v2/match-making/types"
 )
 
@@ -40,11 +41,19 @@ func FilterFoundCandidateSessions(sessions []uint32, connection *nex.PRUDPConnec
 	vrPrimitive, _ := searchMatchmakeSession.Attributes.Get(1)
 	vr := int32(vrPrimitive.Value)
 	playerVRs.Set(connection.ID, vr)
+
+	transformVR := func(vr int32) int32 {
+		vrFloat := float64(vr)
+		return int32(math.Log(vrFloat) + (2000000.0/math.Sqrt(vrFloat)))
+	}
+
 	sort.Slice(sessions, func(i, j int) bool {
-		var vrDifi int32 = getSessionVRMean(sessions[i]) - vr
+		transformedVR := transformVR(vr)
+
+		var vrDifi int32 = transformVR(getSessionVRMean(sessions[i])) - transformedVR
 		if vrDifi < 0 {vrDifi = -vrDifi}
 
-		var vrDifj int32 = getSessionVRMean(sessions[j]) - vr
+		var vrDifj int32 = transformVR(getSessionVRMean(sessions[j])) - transformedVR
 		if vrDifj < 0 {vrDifj = -vrDifj}
 
 		return vrDifi < vrDifj
